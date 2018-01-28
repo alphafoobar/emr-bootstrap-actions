@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -x
 
-VERSION=2.0.0
+VERSION=2.4.0
 
 IS_MASTER="false"
 if [ -f /mnt/var/lib/info/instance.json ]
@@ -27,9 +27,9 @@ fi
 
 # install dependencies
 if [ "$FAMILY" == "RHEL" ]; then
-  HBASE_HOME="/home/hadoop/hbase"
+  HBASE_HOME="/usr/lib/hbase"
   sudo yum -y install gnuplot
-  TSD_PACKAGE=opentsdb-${VERSION}.noarch.rpm
+  TSD_PACKAGE=opentsdb-${VERSION}.rpm
 elif [ "$FAMILY" == "DEBIAN" ]; then
   HBASE_HOME="/home/hadoop"
   sudo apt-get update
@@ -87,6 +87,8 @@ cat <<-EOF > $TSD_HOME/start_and_configure_tsd.sh
 #
 
 echo "Initializing TSD..."
+# Need to set JAVA_HOME otherwise AWS EMR doesn't know
+export JAVA_HOME=/usr/lib/jvm/java
 
 # check zookeeper connectivity
 RUOK=\`echo ruok | nc -w 5 localhost 2181\`
