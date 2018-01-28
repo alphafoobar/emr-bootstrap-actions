@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -x
 
-VERSION=2.4.0
+VERSION=2.3.0
 
 IS_MASTER="false"
 if [ -f /mnt/var/lib/info/instance.json ]
